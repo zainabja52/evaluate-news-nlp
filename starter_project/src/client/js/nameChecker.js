@@ -1,3 +1,4 @@
+//starter_project\src\client\js\nameChecker.js
 function checkForName(inputText) {
     console.log("::: Running checkForName :::", inputText);
     let names = [

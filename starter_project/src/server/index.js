@@ -1,33 +1,72 @@
-var path = require('path');
+//starter_project\src\server\index.js
 const express = require('express');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
-dotenv.config();
+const cors = require('cors');
+const cheerio = require('cheerio');
+const fetch = require('node-fetch');
 
+dotenv.config();
 const app = express();
 
-const cors = require('cors');
-
+// Middleware
 app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-console.log(__dirname);
+// Constants
+const UDACITY_API_ENDPOINT = 'https://kooye7u703.execute-api.us-east-1.amazonaws.com/NLPAnalyzer';
+const MAX_TEXT_LENGTH = 200;
 
-// Variables for url and api key
+const scrapeText = async (url) => {
+  try {
+    const response = await fetch(url);
+    const html = await response.text();
+    const $ = cheerio.load(html);
+    
+    // Extract and clean text
+    const text = $('article').text() || $('main').text() || $('body').text();
+    return text.trim().substring(0, MAX_TEXT_LENGTH);
+  } catch (error) {
+    throw new Error('Failed to scrape website content');
+  }
+};
 
+app.post('/analyze', async (req, res) => {
+  try {
+    const { url } = req.body;
+    if (!url) throw new Error('URL is required');
+    
+    // Scrape and prepare text
+    const rawText = await scrapeText(url);
+    const cleanText = rawText.replace(/[\r\n\t]+/g, ' ').replace(/\s+/g, ' ');
 
-app.get('/', function (req, res) {
-    res.send("This is the server API page, you may access its services via the client app.");
+    // Call Udacity AWS API
+    const apiResponse = await fetch(UDACITY_API_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: cleanText })
+    });
+
+    if (!apiResponse.ok) throw new Error('API analysis failed');
+    
+    const analysis = await apiResponse.json();
+    
+    res.json({
+      sentiment: analysis.sentiment,
+      scores: analysis.sentiment_scores,
+      text: analysis.text
+    });
+
+  } catch (error) {
+    console.error('Analysis error:', error);
+    res.status(500).json({ 
+      error: error.message.includes('Failed to scrape') 
+        ? 'Invalid or inaccessible website URL' 
+        : 'Analysis failed. Please try again later.'
+    });
+  }
 });
 
-
-// POST Route
-
-
-
-// Designates what port the app will listen to for incoming requests
-app.listen(8000, function () {
-    console.log('Example app listening on port 8000!');
-});
-
-
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

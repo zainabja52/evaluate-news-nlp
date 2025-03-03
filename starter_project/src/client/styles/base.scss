@@ -1,0 +1,26 @@
+/* base.scss */
+body {
+  background: linear-gradient(135deg, #f9f9f9, #e0e5ec);
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Poppins', sans-serif;
+}
+
+main {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+h1, h2, h3 {
+  color: #444;
+  margin-bottom: 1rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
