@@ -15,7 +15,6 @@ This web application analyzes news articles using Natural Language Processing (N
 <img align="left" alt="JavaScript" width="50px" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" />
 <img align="left" alt="Node.js" width="50px" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg" />
 <img align="left" alt="Jest" width="50px" src="https://jestjs.io/img/favicon/favicon.ico" />
-<img align="left" alt="Webpack" width="50px" src="https://webpack.js.org/icon-square-small.85ba630cf0c5f29ae3e3.svg" />
 <br><br>
 
 ## 🚀 Installation
