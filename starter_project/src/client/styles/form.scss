@@ -1,43 +1,93 @@
 /* form.scss */
 #urlForm {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  padding: 2rem;
-  border-radius: 15px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
-  margin: 0 auto;
-
-  input[type="text"] {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+    transition: all 0.3s ease;
+  
+    body[data-theme="dark"] & {
+      background: rgba(31, 41, 55, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  
+    input[type="text"] {
       width: 100%;
       padding: 0.75rem;
       border: 1px solid #ddd;
       border-radius: 4px;
       font-size: 1rem;
       margin-bottom: 1rem;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-
-      &:focus {
-          border-color: #1abc9c;
-          box-shadow: 0 0 10px rgba(26, 188, 156, 0.5);
-          outline: none;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-light);
+  
+      body[data-theme="dark"] & {
+        background: rgba(31, 41, 55, 0.9);
+        border-color: #374151;
+        color: var(--text-dark);
       }
-  }
-
-  button[type="submit"] {
-      background: linear-gradient(135deg, #6a11cb, #2575fc);
+  
+      &:focus {
+        border-color: var(--primary-light);
+        box-shadow: 0 0 10px rgba(79, 70, 229, 0.5);
+        outline: none;
+      }
+    }
+  
+    button[type="submit"] {
+      background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
       color: #fff;
       border: none;
       padding: 0.75rem 1.5rem;
       border-radius: 25px;
       font-size: 1rem;
       cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-
+      transition: all 0.3s ease;
+  
       &:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 4px 15px rgba(37, 117, 252, 0.4);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
       }
+    }
   }
-}
+  
+  .progress-bar {
+    background: #e0e5ec;
+    border-radius: 25px;
+    overflow: hidden;
+    height: 20px;
+    margin: 1rem 0;
+  
+    .progress {
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
+      border-radius: 25px;
+      transition: width 0.5s ease;
+      position: relative;
+  
+      &::after {
+        content: attr(data-progress);
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #fff;
+        font-size: 0.8rem;
+      }
+    }
+  }
+  
+  body[data-theme="dark"] {
+    .progress-bar {
+      background: #374151;
+      
+      .progress {
+        background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
+      }
+    }
+  }

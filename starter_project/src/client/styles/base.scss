@@ -1,11 +1,49 @@
 /* base.scss */
+/* base.scss */
+:root {
+  --primary-light: #4F46E5;
+  --secondary-light: #9333EA;
+  --accent-light: #F472B6;
+  --text-light: #1F2937;
+  --bg-light: #F3F4F6;
+  --card-bg-light: rgba(255, 255, 255, 0.9);
+  
+  --primary-dark: #818CF8;
+  --secondary-dark: #A78BFA;
+  --accent-dark: #F472B6;
+  --text-dark: #F3F4F6;
+  --bg-dark: #1F2937;
+  --card-bg-dark: rgba(31, 41, 55, 0.9);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-  background: linear-gradient(135deg, #f9f9f9, #e0e5ec);
-  color: #333;
+  background: var(--bg-light);
+  color: var(--text-light);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+
+  &[data-theme="dark"] {
+    background: var(--bg-dark);
+    color: var(--text-dark);
+    
+    .card {
+      background: var(--card-bg-dark);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    footer {
+      background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
+    }
+  }
 }
 
 main {
@@ -17,10 +55,55 @@ main {
 }
 
 h1, h2, h3 {
-  color: #444;
+  color: var(--text-light);
   margin-bottom: 1rem;
+
+  body[data-theme="dark"] & {
+    color: var(--text-dark);
+  }
 }
 
-p {
-  margin-bottom: 1rem;
+#particles-js {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: rgba(255, 255, 255, 0.2);
+  
+  body[data-theme="dark"] & {
+    background: rgba(0, 0, 0, 0.2);
+  }
+}
+
+.card {
+  background: var(--card-bg-light);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.preview-content {
+  img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    line-height: 1.6;
+    color: var(--text-light);
+    
+    body[data-theme="dark"] & {
+      color: var(--text-dark);
+    }
+  }
 }
